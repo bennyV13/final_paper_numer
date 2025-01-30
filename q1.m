@@ -1,4 +1,5 @@
-
+close all;
+clear all;
 % Parameters
 n = 200; % Number of grid points in x
 m = 200; % Number of grid points in y
@@ -24,10 +25,9 @@ T_old = 1;
         a = -1/dx^2 * ones(1, n-3); % Sub-diagonal
         b = (2/dx^2 + 2/dy^2) * ones(1, n-2); % Main diagonal
         c = -1/dx^2 * ones(1, n-3); % Super-diagonal
-        A = spdiags([a b c], [-1 0 1], n-2, n-2); % Sparse tridiagonal matrix
-
+        %A = spdiags([a b c], [-1 0 1], n-2, n-2); % Sparse tridiagonal matrix
+        A = diag(b) + diag(a, 1) + diag(c, -1);
 d=ones(n-2); % The solutions vector (b)
-S=sparse(A);
 tic;
 while crit > tol
     
@@ -40,7 +40,7 @@ while crit > tol
         d(end) = d(end) + T(j, n) / dx^2; % Add right boundary condition
         
         % Solve tridiagonal system using the provided Thomas algorithm
-        T(j, 2:n-1) = thomas_algorithm_vectorized(a,b,c,d);
+        T(j, 2:n-1) = tomas(A,d);
         
 
     end
@@ -51,13 +51,13 @@ while crit > tol
     %disp(crit);
 end
 toc;
-% figure(1);
-% contourf(X,Y,T);
-% axis([0 2*pi 0 1]);
-% colorbar;
-% xlabel('x');
-% ylabel('y');
-% title('Temperature Distribution');
+ figure(1);
+ contourf(X,Y,T);
+ axis([0 2*pi 0 1]);
+ colorbar;
+ xlabel('x');
+ ylabel('y');
+ title('Temperature Distribution');
 
 function x = thomas_algorithm_vectorized(a, b, c, d)
     n = length(b); % Number of equations
