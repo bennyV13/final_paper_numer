@@ -20,6 +20,14 @@ T_old=T;
 tol = 1e-6;
 crit = 1;
 
+% %if matrix A
+% a_extracted = diag(A, -1);  % sub-diagonal
+% b_extracted = diag(A,  0);  % main diagonal
+% c_extracted = diag(A,  1);  % super-diagonal
+
+
+
+
 
 % Construct the tridiagonal system for row j
         a = -1/dx^2 * ones(1, n-3); % Sub-diagonal
