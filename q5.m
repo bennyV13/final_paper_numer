@@ -31,7 +31,7 @@ T_cyl = 2;
 %% initialazing mat A and vec b, including IC
 
 %initialazing the matrix
-b=zeros(c*c,1);
+b=ones(c*c,1); %IC of one in whole domain
 q=zeros(c*c,1);
 alpha=2*(1/dx^2+1/dy^2)+1/dt;
 beta=-1/dx^2;
@@ -59,12 +59,20 @@ for ii=1:c
     % where x=0 and x=2*pi
     b((ii-1)*c+1)=1;
     b(ii*c)=1;
-    disp(b);    
+    disp(b);
 end
 % defining the parts of b that are based on the boundry conditions where
 % y=0 and y=1
 b(1:c)=cos(2*x(ii))/dt;
 b(c*c-c+1:c*c)=cos(2*x(ii))/dt;
 
+%% calculating transient proccess
 
+for n=0:dt:1
+    %step 1: calculate intermidiate temp b
+    %step 2: interpolation temp to body
+    %step 3: calculate het flux q
+    %step 4: regularize q to grid 
+    %step 5: solve for new temp field
+end
 
